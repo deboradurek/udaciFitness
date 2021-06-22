@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { getMetricMetaInfo } from '../helpers';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
+import DateHeader from './DateHeader';
 
 class AddEntry extends Component {
   state = {
@@ -54,6 +55,7 @@ class AddEntry extends Component {
 
     return (
       <View>
+        <DateHeader date={new Date().toLocaleDateString()} />
         {Object.keys(metaInfo).map((key) => {
           const { getIcon, type, ...rest } = metaInfo[key];
           const value = this.state[key];
