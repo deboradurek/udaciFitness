@@ -1,4 +1,4 @@
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // The place where we are going to persist the information:
 import { CALENDAR_STORAGE_KEY } from './_calendar';
 
