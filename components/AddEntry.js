@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { getMetricMetaInfo, timeToString } from '../utils/helpers';
+import { submitEntry, removeEntry } from '../utils/api';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
 import DateHeader from './DateHeader';
@@ -82,7 +83,8 @@ class AddEntry extends Component {
 
     // Navigate to Home
 
-    // Save to database
+    // Save to database (local storage)
+    submitEntry({ key, entry });
 
     // Clear local notification
   };
@@ -96,7 +98,8 @@ class AddEntry extends Component {
 
     // Navigate to Home
 
-    // Save to database
+    // Save to database (local storage)
+    removeEntry(key);
   };
 
   render() {
