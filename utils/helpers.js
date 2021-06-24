@@ -3,6 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { white, red, orange, blue, lightPurp, pink } from './colors';
 
+/* Check if number is between function */
+
 export function isBetween(num, x, y) {
   if (num >= x && num <= y) {
     return true;
@@ -10,6 +12,8 @@ export function isBetween(num, x, y) {
 
   return false;
 }
+
+/* Calculate direction function */
 
 export function calculateDirection(heading) {
   let direction = '';
@@ -39,11 +43,15 @@ export function calculateDirection(heading) {
   return direction;
 }
 
+/* Transform time to string function */
+
 export function timeToString(time = Date.now()) {
   const date = new Date(time);
   const todayUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   return todayUTC.toISOString().split('T')[0];
 }
+
+/* Styles */
 
 const styles = StyleSheet.create({
   iconContainer: {
@@ -53,8 +61,11 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 20,
   },
 });
+
+/* Meta Info function */
 
 export function getMetricMetaInfo(metric) {
   const info = {
@@ -132,6 +143,8 @@ export function getMetricMetaInfo(metric) {
 
   return typeof metric === 'undefined' ? info : info[metric];
 }
+
+/* Get daily reminder function */
 
 export function getDailyReminderValue() {
   return {
