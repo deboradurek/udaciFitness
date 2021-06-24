@@ -75,7 +75,7 @@ class AddEntry extends Component {
 
   submit = () => {
     const key = timeToString();
-    const entry = this.state;
+    const entry = [this.state];
     const { dispatch } = this.props;
 
     // Update Redux
