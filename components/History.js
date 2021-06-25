@@ -6,7 +6,7 @@ import { timeToString, getDailyReminderValue } from '../utils/helpers';
 import { receiveEntries, addEntry } from '../actions';
 import { Agenda } from 'react-native-calendars';
 import { white } from '../utils/colors';
-import DateHeader from './DateHeader';
+import MetricCard from './MetricCard';
 
 class History extends Component {
   componentDidMount() {
@@ -25,16 +25,15 @@ class History extends Component {
       });
   }
 
-  renderItem = ({ today, ...metrics }, formattedDate, key) => (
+  renderItem = ({ today, ...metrics }) => (
     <View style={styles.item}>
       {today ? (
         <View>
-          <DateHeader date={formattedDate} />
           <Text style={styles.noDataText}>{today}</Text>
         </View>
       ) : (
         <TouchableOpacity onPress={() => console.log('Pressed!')}>
-          <Text>{JSON.stringify(metrics)}</Text>
+          <MetricCard metrics={metrics} />
         </TouchableOpacity>
       )}
     </View>
@@ -43,7 +42,6 @@ class History extends Component {
   renderEmptyDate = () => {
     return (
       <View style={styles.item}>
-        {/* <DateHeader date={formattedDate} /> */}
         <Text style={styles.noDataText}>You didn't log any data on this day.</Text>
       </View>
     );
