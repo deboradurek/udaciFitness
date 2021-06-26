@@ -214,9 +214,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   const key = timeToString();
+  console.log(state);
 
   return {
-    alreadyLogged: state[key] && typeof state[key].today === 'undefined',
+    alreadyLogged: state[key] && state[key][0].today === undefined,
   };
 }
 
