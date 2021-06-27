@@ -73,11 +73,14 @@ function StackNav() {
       <Stack.Screen
         name="EntryDetail"
         component={EntryDetail}
-        options={{
-          headerBackTitleVisible: false,
+        options={({ route }) => ({
           headerTintColor: white,
-          headerStyle: { backgroundColor: purple },
-        }}
+          headerStyle: {
+            backgroundColor: purple,
+          },
+          title: route.params.date,
+          headerBackTitleVisible: false,
+        })}
       />
     </Stack.Navigator>
   );
