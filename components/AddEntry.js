@@ -75,7 +75,7 @@ class AddEntry extends Component {
 
   submit = () => {
     const key = timeToString();
-    const entry = [this.state];
+    const entry = [{ ...this.state, date: key }];
     const { dispatch } = this.props;
 
     // Update Redux
@@ -214,7 +214,6 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   const key = timeToString();
-  console.log(state);
 
   return {
     alreadyLogged: state[key] && state[key][0].today === undefined,

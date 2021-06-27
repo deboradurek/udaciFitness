@@ -35,14 +35,14 @@ class History extends Component {
       .then(() => this.setState({ ready: true }));
   }
 
-  renderItem = ({ today, ...metrics }) => (
+  renderItem = ({ today, date, ...metrics }) => (
     <View style={styles.item}>
       {today ? (
         <View>
           <Text style={styles.noDataText}>{today}</Text>
         </View>
       ) : (
-        <TouchableOpacity onPress={() => console.log('Pressed!')}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('EntryDetail', { date })}>
           <MetricCard metrics={metrics} />
         </TouchableOpacity>
       )}
@@ -67,15 +67,14 @@ class History extends Component {
 
     return (
       //   <Text>{JSON.stringify(this.props)}</Text>
-      <Agenda items={entries} renderItem={this.renderItem} renderEmptyDate={this.renderEmptyDate} />
+      <Agenda
+        items={entries}
+        renderItem={this.renderItem}
+        renderEmptyDate={this.renderEmptyDate}
+        selected
+      />
     );
   }
-}
-
-function mapStateToProps(entries) {
-  return {
-    entries,
-  };
 }
 
 /* Styles */
@@ -103,5 +102,11 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 });
+
+function mapStateToProps(entries) {
+  return {
+    entries,
+  };
+}
 
 export default connect(mapStateToProps)(History);
