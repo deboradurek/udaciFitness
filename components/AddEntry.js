@@ -10,6 +10,7 @@ import TextButton from './TextButton';
 import { connect } from 'react-redux';
 import { addEntry } from '../actions';
 import { purple, white } from '../utils/colors';
+import { CommonActions } from '@react-navigation/native';
 
 /* Button Component */
 
@@ -71,6 +72,14 @@ class AddEntry extends Component {
     });
   };
 
+  /* Method to navigate back to Home */
+  toHome = () => {
+    this.props.navigation.dispatch({
+      ...CommonActions.goBack(),
+      source: 'AddEntry',
+    });
+  };
+
   /* Method for submit button */
 
   submit = () => {
@@ -95,6 +104,7 @@ class AddEntry extends Component {
     });
 
     // TODO: Navigate to Home
+    this.toHome();
 
     // Save to database (local storage)
     submitEntry({ key, entry });
@@ -106,6 +116,7 @@ class AddEntry extends Component {
 
   reset = () => {
     const key = timeToString();
+
     const { dispatch } = this.props;
 
     // Update Redux
