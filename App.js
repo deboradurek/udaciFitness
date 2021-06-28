@@ -5,6 +5,7 @@ import reducer from './reducers';
 import History from './components/History';
 import AddEntry from './components/AddEntry';
 import EntryDetail from './components/EntryDetail';
+import Live from './components/Live';
 import 'react-native-gesture-handler';
 import { Platform, StatusBar, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -38,6 +39,8 @@ function TabNav() {
             icon = <Ionicons name="ios-bookmarks" size={size} color={color} />;
           } else if (route.name === 'AddEntry') {
             icon = <FontAwesome name="plus-square" size={size} color={color} />;
+          } else if (route.name === 'Live') {
+            icon = <Ionicons name="ios-speedometer" size={size} color={color} />;
           }
           return icon;
         },
@@ -59,6 +62,7 @@ function TabNav() {
     >
       <Tab.Screen name="History" component={History} />
       <Tab.Screen name="AddEntry" component={AddEntry} />
+      <Tab.Screen name="Live" component={Live} />
     </Tab.Navigator>
   );
 }
