@@ -2,18 +2,78 @@ import React, { Component } from 'react';
 import { View, Text, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
 import { Foundation } from '@expo/vector-icons';
 import { purple, white } from '../utils/colors';
+import * as Location from 'expo-location';
+import { calculateDirection } from '../utils/helpers';
 
 class Live extends Component {
   state = {
-    coord: null,
-    status: 'denied',
+    coords: null,
+    status: null,
     direction: '',
   };
+  location = null;
 
-  askPermission = () => {};
+  async componentDidMount() {
+    Location.getForegroundPermissionsAsync()
+      .then(({ status }) => {
+        if (status === 'granted') {
+          return this.setLocation();
+        }
+
+        this.setState({
+          status,
+        });
+      })
+      .catch((error) => {
+        console.warn('Error getting location permission: ', error);
+        this.setState({
+          status: 'undetermined',
+        });
+      });
+  }
+
+  componentWillUnmount() {
+    this.location.remove();
+  }
+
+  askPermission = () => {
+    Location.requestForegroundPermissionsAsync()
+      .then(({ status }) => {
+        if (status === 'granted') {
+          return this.setLocation();
+        }
+
+        this.setState({
+          status,
+        });
+      })
+      .catch((error) => {
+        console.warn('Error requesting permission to access location: ', error);
+      });
+  };
+
+  setLocation = async () => {
+    this.location = await Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.High,
+        timeInterval: 1,
+        distanceInterval: 1,
+      },
+      ({ coords }) => {
+        const newDirection = calculateDirection(coords.heading);
+        console.log(newDirection);
+
+        this.setState({
+          coords,
+          status: 'granted',
+          direction: newDirection,
+        });
+      }
+    );
+  };
 
   render() {
-    const { coord, status, direction } = this.state;
+    const { coords, status, direction } = this.state;
 
     // If the user hasn't yet given permission to access their location
     if (status === null) {
@@ -48,8 +108,25 @@ class Live extends Component {
 
     // If the user grants permission to access their location
     return (
-      <View>
-        <Text>{JSON.stringify(this.state)}</Text>
+      <View style={styles.container}>
+        <View style={styles.directionContainer}>
+          <Text style={styles.header}>You're heading</Text>
+          <Text style={styles.direction}>{direction}</Text>
+        </View>
+        <View style={styles.metricContainer}>
+          <View style={styles.metric}>
+            <Text style={[styles.subHeader, { color: white }]}>Altitude</Text>
+            <Text style={[styles.subHeader, { color: white }]}>
+              {Math.round(coords.altitude * 3.2808)} feet
+            </Text>
+          </View>
+          <View style={styles.metric}>
+            <Text style={[styles.subHeader, { color: white }]}>Speed</Text>
+            <Text style={[styles.subHeader, { color: white }]}>
+              {(coords.speed * 3.6).toFixed(1)} KMH
+            </Text>
+          </View>
+        </View>
       </View>
     );
   }
@@ -60,7 +137,7 @@ class Live extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   center: {
     flex: 1,
@@ -79,6 +156,39 @@ const styles = StyleSheet.create({
   buttonText: {
     color: white,
     fontSize: 20,
+  },
+  directionContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  header: {
+    fontSize: 35,
+    textAlign: 'center',
+  },
+  direction: {
+    color: purple,
+    fontSize: 120,
+    textAlign: 'center',
+  },
+  metricContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: purple,
+  },
+  metric: {
+    flex: 1,
+    paddingTop: 15,
+    paddingBottom: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  subHeader: {
+    fontSize: 25,
+    textAlign: 'center',
+    marginTop: 5,
   },
 });
 
