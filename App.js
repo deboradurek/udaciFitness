@@ -95,7 +95,7 @@ class App extends Component {
   componentDidMount() {
     setLocalNotification();
     // Uncomment to reset local data:
-    AsyncStorage.clear();
+    // AsyncStorage.clear();
   }
 
   render() {

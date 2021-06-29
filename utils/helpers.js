@@ -174,10 +174,8 @@ export function setLocalNotification() {
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then((data) => {
-      console.log(data);
       if (data === null) {
         Notifications.requestPermissionsAsync().then(({ status }) => {
-          console.log(status);
           if (status === 'granted') {
             Notifications.cancelAllScheduledNotificationsAsync();
 
@@ -189,8 +187,8 @@ export function setLocalNotification() {
                 sound: true,
               },
               trigger: {
-                hour: 17,
-                minute: 19,
+                hour: 9,
+                minute: 0,
                 repeats: true,
               },
             });
