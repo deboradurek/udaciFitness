@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { white, red, orange, blue, lightPurp, pink } from './colors';
 import * as Notifications from 'expo-notifications';
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NOTIFICATION_KEY = 'UdaciFitness:notifications';
 
@@ -168,58 +168,34 @@ export function clearAllNotifications() {
   );
 }
 
-// Function to represent the notification
-// function createNotification() {
-//   return {
-//     title: 'Log your stats',
-//     body: "👋 Don't forget to log your stats for today!",
-//     ios: { sound: true },
-//     android: { sound: true, priority: 'high', sticky: false, vibrate: true },
-//   };
-// }
-
 // Set Notification
 
 export function setLocalNotification() {
-  return AsyncStorage.getItem(NOTIFICATION_KEY)
+  AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then((data) => {
+      console.log(data);
       if (data === null) {
         Notifications.requestPermissionsAsync().then(({ status }) => {
+          console.log(status);
           if (status === 'granted') {
             Notifications.cancelAllScheduledNotificationsAsync();
 
-            // let tomorrow = new Date();
-            // tomorrow.setDate(tomorrow.getDate() + 1);
-            // tomorrow.setHours(20);
-            // tomorrow.setMinutes(0);
-
-            Notifications.scheduleNotificationAsync(
-              // createNotification()
-              {
-                identifier: 'createNotification',
-                content: {
-                  title: 'Log your stats',
-                  body: "👋 Don't forget to log your stats for today!",
-                  sound: true,
-                },
-                trigger: {
-                  hour: 20,
-                  minute: 0,
-                  repeats: true,
-                },
-              }
-            );
+            Notifications.scheduleNotificationAsync({
+              identifier: 'createNotification',
+              content: {
+                title: 'Log your stats',
+                body: "👋 Don't forget to log your stats for today!",
+                sound: true,
+              },
+              trigger: {
+                hour: 17,
+                minute: 19,
+                repeats: true,
+              },
+            });
 
             AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
-
-            // Notifications.setNotificationHandler({
-            //     handleNotification: async () => ({
-            //       shouldShowAlert: true,
-            //       shouldPlaySound: true,
-            //       shouldSetBadge: true,
-            //     }),
-            //   });
           }
         });
       }

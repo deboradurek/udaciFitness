@@ -15,7 +15,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { purple, white } from './utils/colors';
 import Constants from 'expo-constants';
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setLocalNotification } from './utils/helpers';
 
 // Status Bar
 function UdaciStatusBar({ backgroundColor, ...props }) {
@@ -91,10 +92,11 @@ function StackNav() {
 }
 
 class App extends Component {
-  // Uncomment to reset local data:
-  // componentDidMount() {
-  //   AsyncStorage.clear();
-  // }
+  componentDidMount() {
+    setLocalNotification();
+    // Uncomment to reset local data:
+    AsyncStorage.clear();
+  }
 
   render() {
     return (
